@@ -1,0 +1,220 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Slider Test</title>
+
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+<link rel="stylesheet" type="text/css" href="style.css" />
+
+<style>
+
+body {
+	font-family:helvetica;
+}
+
+h3 {
+	margin: 10px 15px;
+	float:left;
+}
+
+button {
+	margin:12px;
+	float:left;
+}
+
+.sliderText {
+	font-size: 0.8em;
+}
+
+</style>
+
+
+</head>
+<body>
+
+<div id="example1">
+	<h3>Continuous</h3>
+	<button id="b1" type="button">Get value</button>
+
+</div>
+
+<div id="example2">
+	<h3>Snaps to increments</h3>
+	<button id="b2" type="button">Get value</button>
+
+</div>
+
+<div id="example3">
+	<h3>Different width</h3>
+	<button id="b3" type="button">Get value</button>
+
+</div>
+
+<div id="example4">
+	<h3>Different dataset</h3>
+	<button id="b4" type="button">Get value</button>
+
+</div>
+
+
+<script>
+
+
+
+globVal = 0;
+
+var directions = [
+				{name:"N", value:0},
+				{name:"NE", value:45},
+				{name:"E", value:90},
+				{name:"SE", value:135},
+				{name:"S", value:180},
+				{name:"SW", value:225},
+				{name:"W", value:270},
+				{name:"NW", value:315},
+				{name:"N", value:360}]
+
+var radii = [
+				{name:"100", value:100},
+				{name:"150", value:150},
+				{name:"200", value:200},
+				{name:"250", value:250},
+				{name:"300", value:300},
+				{name:"350", value:350},
+				{name:"400", value:400}]
+
+
+var test1 = makeSlider(directions, 300, false, "example1");
+
+var test2 = makeSlider(directions, 300, true, "example2");
+
+var test3 = makeSlider(directions, 500, false, "example3");
+
+var test4 = makeSlider(radii, 300, false, "example4");
+
+$("#b1").click(function(){
+	alert(test1())
+})
+
+$("#b2").click(function(){
+	alert(test2())
+})
+
+$("#b3").click(function(){
+	alert(test3())
+})
+
+$("#b4").click(function(){
+	alert(test4())
+})
+
+// var test2 = makeSlider(radii, 300);
+
+function makeSlider(data, width, intervals, classORid){
+
+	var findMinMax = function(){
+
+		var max;
+		var min;
+
+		for (var i in data) {
+			val = data[i].value
+			max = (val < max ? max : val)
+			min = (val > min ? min : val)
+		}
+		
+		return {max:max, min:min, range:max-min, count:i}
+	}
+
+	var minMax = findMinMax();
+
+	var drag = d3.behavior.drag()
+	            .origin(Object)
+	            .on("drag", dragMove)
+	            .on('dragend', dragEnd);
+
+	var svg = d3.select("#" + classORid)
+	                .append('svg')
+	                .attr("height", 50)
+	                .attr("widht", width);
+
+	var g = svg.selectAll('g')
+	            .data([{x: 0, y : 20}])
+	            .enter()
+	                .append('g')
+	                .attr("height", 200)
+	                .attr("widht", width)
+	                .attr('transform', 'translate(20, 10)');
+
+	var rect = g
+	                .append('rect')
+	                .attr('y', 19)
+	                .attr("height", 2)
+	                .attr("width", width)
+	                .attr('fill', 'rgb(30,30,30)');
+
+	var circle = g.append("circle")
+	    .attr("r", 7)
+	    .attr("cx", function(d) { return d.x; })
+	    .attr("cy", function(d) { return d.y; })
+	    .attr("fill", "white")
+	    .attr("stroke", "black")
+	    .attr("stroke-width", 2)
+	    .call(drag);
+
+	var text = svg.selectAll("text")
+		.data(data)
+		.enter()
+		.append("text")
+
+	var textLabels = text
+		 .attr("class", "sliderText")
+	     .attr("x", function(d,i) { return 20 + i * (width/minMax.count); })
+	     .attr("y", function(d) { return 17; })
+	     .text( function (d) { return d.name })
+	     .attr("font-family", "sans-serif")
+	     .style("text-anchor", "middle");
+
+
+	function dragMove(d) {
+	    d3.select(this)
+	        .attr("cx", function(d){
+	        	interval = (intervals ? width / minMax.count : 1);
+
+	        	d.x = interval * (Math.round(Math.max(0, Math.min(width, d3.event.x))/interval));
+
+	        	return d.x;
+	        });
+	        
+	}
+
+	function dragEnd() {
+	    d3.select(this)
+	}
+
+	findValue = function(){
+		x = circle.attr("cx")
+		return minMax.min + minMax.range * (x/width)
+
+	}
+
+	return findValue;
+
+}
+
+
+
+</script>
+
+
+
+</body>
+</html>

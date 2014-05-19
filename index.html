@@ -1,0 +1,190 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<title>Slider Test</title>
+
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" ></script>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="simpleslider.js" charset="utf-8"></script>
+
+
+<style>
+
+body {
+	font-family:helvetica;
+	margin: 0;
+}
+
+h1 {
+	color: #2980b9;
+	margin: 15px;
+}
+
+h3 {
+	color: #2980b9;
+	margin: 0px 15px;
+}
+
+span {
+	display: block;
+	font-size:0.8em;
+	margin: 10px 5px 10px 15px;
+}
+
+code {
+	display: block;
+	background-color:rgb(235,235,235);
+	padding: 5px;
+	margin: 10px 5px 10px 15px;
+	width: 300px;
+	border: 1px solid rgb(150,150,150);
+}
+
+button {
+	margin:12px;
+	float:left;
+}
+
+#header {
+	height:60px;
+	background-color: ;
+}
+
+#header #wrapper {
+	display: block;
+	margin-left:auto;
+	margin-right:auto;
+	width:600px;
+}
+
+#container {
+	display: block;
+	margin-left:auto;
+	margin-right:auto;
+	width:600px;
+}
+
+.slider {
+	margin: 30px 0;
+	text-align:left;
+}
+
+img {
+	position:relative;
+}
+
+</style>
+
+
+</head>
+<body>
+
+<div id="header"> <div id="wrapper"> 
+	<h1>simpleSlider</h1>  
+</div> </div>
+
+<div id="container">
+
+	
+
+	<div id='slider1' class="slider">
+		<h3>Basic slider</h3>
+		<pre><code>var slider1 = makeSlider(options = {
+		data:[0,10,5],
+		location:"#slider1"
+	})</code></pre>
+		<span>Value: <label class = "value"></label> </span>
+	</div>
+
+	<div id='slider2' class="slider">
+		<h3>Different width, fewer labels</h3>
+		<pre><code>var slider2 = makeSlider(options = {
+		data:[0,10,2],
+		location:"#slider2",
+		width:200
+	})</code></pre>
+		<span>Value: <label class = "value"></label> </span>
+	</div> 
+
+	<div id='slider3' class="slider">
+		<h3>Snaps to increments, new color</h3>
+		<pre><code>var slider3 = makeSlider(options = {
+		data:[0,10,5],
+		location:"#slider3",
+		continuous:false,
+		color:"#e67e22"
+	})</code></pre>
+		<span>Value: <label class = "value"></label> </span>
+	</div> 
+
+	<div id='slider4' class="slider">
+		<h3>Strings as input</h3>
+		<pre><code>var slider4 = makeSlider(options = {
+		data:["N","E","S","W"]
+		location:"#slider4"
+	})</code></pre>
+		<span>Value: <label class = "value"></label> </span>
+	</div>
+
+	<div id='slider5' class="slider">
+		<h3>Strings as labels</h3>
+		<pre><code>var slider5 = makeSlider(options = {
+	data:[0,360,4],
+	labels:["N","E","S","W","N"],
+	location:"#slider5"
+})</code></pre>
+		<span>Value: <label class = "value"></label> </span>
+	</div>
+
+
+
+</div>
+
+<script>
+
+var slider1 = makeSlider(options = {
+	data:[0,10,5],
+	location:"#slider1"
+})
+$("#slider1 .value").html(slider1.value())
+
+var slider2 = makeSlider(options = {
+	data:[0,20,5],
+	location:"#slider2",
+	width:200
+})
+$("#slider2 .value").html(slider1.value())
+
+var slider3 = makeSlider(options = {
+	data:[0,10,5],
+	location:"#slider3",
+	continuous:false,
+	color:"#e67e22"
+})
+$("#slider3 .value").html(slider2.value())
+
+var slider4 = makeSlider(options = {
+	data:["N","E","S","W"],
+	location:"#slider4"
+})
+$("#slider4 .value").html(slider4.value())
+
+var slider5 = makeSlider(options = {
+	data:[0,360,4],
+	labels:["N","E","S","W","N"],
+	location:"#slider5"
+})
+$("#slider5 .value").html(slider5.value())
+
+</script>
+
+
+
+</body>
+</html>
